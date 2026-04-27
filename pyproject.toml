@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "telegram-channel-parser"
+version = "1.0.0"
+description = "Parser of Telegram channel"
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.11.1"
+telethon = "^1.42.0"
+click = "^8.3.1"
+pydantic-settings = "^2.12.0"
+coloredlogs = "^15.0.1"
+python-slugify = "^8.0.4"
+tenacity = "^9.1.4"
+boto3 = "^1.37.0"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.7.0"
+black = "^23.0"
+parameterized = "^0.8.1"
+pre-commit = "^2.10.1"
+autoflake = "^1.4"
+seed-isort-config = "^2.2.0"
+bandit = "^1.7.0"
+flake8 = "^3.9.2"
+
+[tool.isort]
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+known_third_party = ["boto3", "botocore", "click", "coloredlogs", "pydantic_settings", "slugify", "telethon", "tenacity"]
+
+[tool.black]
+line-length = 120
+exclude = '''
+/(
+  \.git
+  | tmp/
+  | data/
+)/
+'''
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
