@@ -22,7 +22,8 @@ bandit = "^1.7.0"
 ruff = "^0.9.0"
 
 [tool.poe.tasks]
-lint = "pre-commit run --all-files"
+lint = "ruff check ."
+format = "ruff format --check"
 
 [tool.ruff]
 line-length = 120
