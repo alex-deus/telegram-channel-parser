@@ -44,12 +44,13 @@ def clone(
     if messages_id:
         if "-" in messages_id:
             parts = messages_id.split("-")
-            if len(parts) != 2:
-                return click.echo("Invalid format for messages-id. Use: <number> or <number1>-<number2>", err=True)
+            if len(parts) > 2:
+                message = "Invalid format for messages-id. Use: <number> or <number1>-<number2> <number1>-_"
+                return click.echo(message, err=True)
 
             try:
                 start = int(parts[0])
-                end = int(parts[1])
+                end = 0 if parts[1] == "_" else int(parts[1])
             except ValueError:
                 return click.echo("Invalid format for messages-id. Both parts must be numbers.", err=True)
 
