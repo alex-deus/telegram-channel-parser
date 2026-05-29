@@ -32,6 +32,10 @@ include_trailing_comma = true
 sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
 known_third_party = ["boto3", "botocore", "click", "coloredlogs", "pydantic_settings", "slugify", "telethon", "tenacity"]
 
+[tool.poe.tasks]
+lint = "pre-commit run --all-files"
+isort = "seed-isort-config"
+
 [tool.black]
 line-length = 120
 exclude = '''
