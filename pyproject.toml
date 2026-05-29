@@ -5,7 +5,7 @@ description = "Parser of Telegram channel"
 authors = []
 
 [tool.poetry.dependencies]
-python = "^3.11.1"
+python = "^3.12.1"
 telethon = "^1.42.0"
 click = "^8.3.1"
 pydantic-settings = "^2.12.0"
