@@ -16,35 +16,23 @@ boto3 = "^1.37.0"
 poethepoet = "^0.46.0"
 
 [tool.poetry.group.dev.dependencies]
-isort = "^5.7.0"
-black = "^23.0"
 parameterized = "^0.8.1"
 pre-commit = "^2.10.1"
-autoflake = "^1.4"
-seed-isort-config = "^2.2.0"
 bandit = "^1.7.0"
-flake8 = "^3.9.2"
-
-[tool.isort]
-line_length = 120
-multi_line_output = 3
-include_trailing_comma = true
-sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
-known_third_party = ["boto3", "botocore", "click", "coloredlogs", "pydantic_settings", "slugify", "telethon", "tenacity"]
+ruff = "^0.9.0"
 
 [tool.poe.tasks]
 lint = "pre-commit run --all-files"
-isort = "seed-isort-config"
 
-[tool.black]
+[tool.ruff]
 line-length = 120
-exclude = '''
-/(
-  \.git
-  | tmp/
-  | data/
-)/
-'''
+exclude = [".git", "tmp/", "data/"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.ruff.format]
+line-ending = "lf"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

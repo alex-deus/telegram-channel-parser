@@ -1,27 +1,10 @@
 repos:
-- repo: local
-  hooks:
-      - id: autoflake
-        name: autoflake
-        entry: autoflake
-        language: system
-        types: [python]
-        args: [
-            '--recursive',
-            '--in-place',
-            '--remove-all-unused-imports',
-            '--remove-duplicate-keys',
-            '.',
-        ]
--   repo: https://github.com/timothycrosley/isort
-    rev: 5.13.2
+-   repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.10
     hooks:
-    -   id: isort
-        files: .
--   repo: https://github.com/psf/black
-    rev: 22.3.0
-    hooks:
-    -   id: black
+    -   id: ruff
+        args: ['--fix']
+    -   id: ruff-format
 -   repo: https://github.com/PyCQA/bandit
     rev: 1.7.6
     hooks:

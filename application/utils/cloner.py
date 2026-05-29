@@ -51,7 +51,7 @@ async def main(
                 logger.info(">>> Processing Telegram message")
                 await _process_message(client, dialog, message, skip_exists, download_mode)
                 logger.info(">>> Processing Telegram message")
-            except Exception as e:
+            except Exception:
                 logger.exception(">>> Error occurred at processing")
                 continue
 
@@ -60,7 +60,7 @@ async def main(
                     logger.info("<<< Uploading to S3")
                     await _upload_folder(dialog, message)
                     logger.info("<<< Uploading to S3")
-                except Exception as e:
+                except Exception:
                     logger.exception("Error occurred at uploading to S3")
                     continue
 
@@ -71,7 +71,7 @@ async def main(
                     folder = _get_message_folder(dialog, message)
                     await asyncio.to_thread(shutil.rmtree, folder, True)
                     logger.info(f"Folder {str(folder)} has been removed")
-                except Exception as e:
+                except Exception:
                     logger.exception(f"Error occurred at removing {str(folder)}")
 
             await asyncio.sleep(settings.delay + uniform(1, 3))  # nosec: B311
@@ -109,7 +109,7 @@ async def _process_message(
 
             json.dump(message_data, f, indent=4)
 
-    except Exception as e:
+    except Exception:
         logger.exception("Error occurred at saving message.json")
 
     if message.message and download_mode in ["all", "message"]:
@@ -121,7 +121,7 @@ async def _process_message(
             with open(message_text_path, "w") as f:
                 f.write(message.message or "")
 
-        except Exception as e:
+        except Exception:
             logger.exception("Error occurred at saving message.txt")
 
     if isinstance(message.media, (MessageMediaDocument,)) and download_mode in ["all", "file"]:
@@ -144,13 +144,15 @@ async def _download_media(current_path: pathlib.Path, client: TelegramClient, me
         file.unlink()
 
     # Make downlaoding
-    callback = lambda cur, total: print(f"{cur / 1024 / 1024:.2f}/{total / 1024 / 1024:.2f} MB", end="\r")
+    def callback(cur, total):
+        print(f"{cur / 1024 / 1024:.2f}/{total / 1024 / 1024:.2f} MB", end="\r")
+
     try:
         logger.info(f"Start downloading {file.name=}")
         await client.download_media(message.media, file, progress_callback=callback)
         print("\n")  # For make output pretty
         logger.info(f"Finish downloading {file.name=}")
-    except Exception as e:
+    except Exception:
         logger.exception(f"Error occurred at saving {file.name=}")
 
     # Check is file exists
@@ -189,7 +191,7 @@ def _upload_file(logger: KwargsLoggerAdapter, s3: BaseClient, file) -> None:
         logger.info(f"Start uploading {key=}")
         s3.upload_file(str(file), settings.s3_bucket, key)
         logger.info(f"Finish uploading {key=}")
-    except Exception as e:
+    except Exception:
         logger.exception(f"Error occurred at uploading {key=}")
 
 
